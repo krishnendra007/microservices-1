@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: apigateway
+
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: http://localhost/8081  # Replace with the actual URL of user-service
+          predicates:
+            - Path=/users/**
+          filters:
+            -StripePrefix=1
+
+        - id: contact-service
+          uri: lb://contact-service  # Replace with the actual URL of contact-service
+          predicates:
+            - Path=/contacts/**
+          filters:
+            -StripePrefix=1
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/  # Update to your Eureka server URL
+
+server:
+  port: 8083
+
+
+
+
