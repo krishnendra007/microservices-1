@@ -24,9 +24,10 @@ public class UserController {
     @GetMapping("/{id}")
     public User getUser(@PathVariable int id){
         User user= userService.getUser(id);
-        List contacts =this.restTemplate.getForObject("http://contact-service/contacts/user/"+user.getUserId(), List.class);
-
-        user.setContact(contacts);
+        if(user!=null) {
+            List contacts = this.restTemplate.getForObject("http://contact-service/contacts/" + user.getUserId(), List.class);
+            user.setContact(contacts);
+        }
         return  user;
 
     }
